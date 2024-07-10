@@ -1,4 +1,4 @@
-# comento_backend
+# 주간보고내용
 
 1. 개발환경 셋팅
    IntelliJ Community 버전 설치(완료)
