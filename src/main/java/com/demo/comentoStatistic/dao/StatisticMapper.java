@@ -1,0 +1,9 @@
+package com.demo.comentoStatistic.dao;
+
+import com.demo.comentoStatistic.dto.YearCountDto;
+import com.demo.comentoStatistic.dto.YearMonthCountDto;
+
+public interface StatisticMapper {
+    YearCountDto selectYearLogin(String year);
+    YearMonthCountDto selectYearMonthLogin(String yearMonth);
+}
