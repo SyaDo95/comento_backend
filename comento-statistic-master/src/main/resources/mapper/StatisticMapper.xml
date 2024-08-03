@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demo.comentoStatistic.dao.StatisticMapper">
+
+    <select id="selectYearLogin" parameterType="string" resultType="YearCountDto">
+        select concat('20', #{year}) as year, count(*) as totCnt
+        from statistic4.requestInfo ri
+        where left(ri.createDate, 2) = #{year};
+    </select>
+
+
+    <select id="selectYearMonthLogin" parameterType="string" resultType="YearMonthCountDto">
+        select concat('20', #{yearMonth}) as yearMonth, count(*) as totCnt
+        from statistic4.requestInfo ri
+        where left(ri.createDate, 4) = #{yearMonth};
+    </select>
+
+    <select id="selectAvgDayLogins" parameterType="string" resultType="AvgDayLoginCountDto">
+        select concat('20', #{yearMonth}) as yearMonth, count(*) / 30 as avgDayCnt
+        from statistic4.requestInfo ri
+        where left(ri.createDate, 4) = #{yearMonth};
+    </select>
+
+
+    <select id="selectYearExceptHolidayLogins" parameterType="string" resultType="YearCountExceptHolidayDto">
+        select concat('20', #{year}) as year, count(*) as totCnt
+        from statistic4.requestInfo ri
+        where left(ri.createDate, 2) = #{year}
+        and left(ri.createDate, 6) not in ('190101', '190815', '191225', '200101', '200815', '201225');
+    </select>
+
+    <select id="selectDepartmentMonthLogins" parameterType="string" resultType="DepartmentMonthLoginDto">
+        SELECT u.HR_ORGAN AS departmentName, CONCAT('20', #{yearMonth}) AS yearMonth, COALESCE(COUNT(*), 0) AS totCnt
+        FROM statistic4.requestInfo ri
+        LEFT JOIN statistic4.user u ON ri.userID = u.userID
+        WHERE LEFT(ri.createDate, 4) = #{yearMonth}
+        GROUP BY u.HR_ORGAN;
+    </select>
+</mapper>
